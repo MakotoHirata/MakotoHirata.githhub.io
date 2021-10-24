@@ -1,13 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Todo App</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <h1>ToDos</h1>
-  </body>
-</html>
 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo App</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div id="app">
+    <h1>To Do List</h1>
+
+    <label v-for="label in options" >
+      <input type="radio"
+        v-model="current"
+        v-bind:value="label.value">{{ label.label }}
+    </label>
+
+    <table>
+      <thead v-pre>
+        <tr>
+          <th class="id">#</th>
+          <th class="comment"></th>
+          <th class="state"></th>
+          <th class="button">-</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="item in computedTodos"
+          v-bind:key="item.id"
+          v-bind:class="{done:item.state}">
+          <th>{{ item.id }}</th>
+          <td>{{ item.comment }}</td>
+          <td class="state">
+            <button v-on:click="doChangeState(item)">
+              {{ labels[item.state] }}
+            </button>
+          </td>
+          <td class="button">
+            <button v-on:click="doRemove(item)">
+              X
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <form class="add-form" v-on:submit.prevent="doAdd">
+       <input type="text" ref="comment">
+      <button type="submit">+</button>
+    </form>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src='js/main.js'></script>
+</body>
+</html>
